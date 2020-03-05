@@ -9,15 +9,15 @@ public class BEFriend implements Serializable {
     private String m_name;
     private String m_phone;
     private Boolean m_isFavorite;
+    private String m_email;
+    private String m_URL;
 
-    public BEFriend(String name, String phone) {
-        this(name, phone, false);
-    }
-
-    public BEFriend(String name, String phone, Boolean isFavorite) {
+    BEFriend(String name, String phone, Boolean isFavorite, String email, String url) {
         m_name = name;
         m_phone = phone;
         m_isFavorite = isFavorite;
+        m_email = email;
+        m_URL = url;
     }
 
     public String getPhone() {
@@ -31,5 +31,7 @@ public class BEFriend implements Serializable {
 
     public Boolean isFavorite() { return m_isFavorite; }
 
+    public String getEmail() { return m_email; }
 
+    public String getURL() { return  m_URL; }
 }
