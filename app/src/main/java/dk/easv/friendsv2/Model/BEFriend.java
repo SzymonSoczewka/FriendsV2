@@ -11,6 +11,7 @@ public class BEFriend implements Serializable {
     private Boolean m_isFavorite;
     private String m_email;
     private String m_URL;
+    private String thumbnailFileName;
 
     BEFriend(String name, String phone, Boolean isFavorite, String email, String url) {
         m_name = name;
@@ -34,4 +35,13 @@ public class BEFriend implements Serializable {
     public String getEmail() { return m_email; }
 
     public String getURL() { return  m_URL; }
+
+
+    public String getThumbnailFileName() {
+        return thumbnailFileName;
+    }
+
+    public void setThumbnailFileName(String thumbnailFileName) {
+        this.thumbnailFileName = thumbnailFileName;
+    }
 }
