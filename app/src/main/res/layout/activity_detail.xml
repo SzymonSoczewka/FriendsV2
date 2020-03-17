@@ -139,7 +139,7 @@
 
         <Button
             android:id="@+id/smsButt"
-            android:layout_width="213dp"
+            android:layout_width="214dp"
             android:layout_height="wrap_content"
             android:text="SMS" />
 
@@ -149,6 +149,31 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Call" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="118dp"
+        android:orientation="horizontal"></LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/returnButt"
+            android:layout_width="141dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Return" />
+
+        <Button
+            android:id="@+id/saveButt"
+            android:layout_width="197dp"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+
     </LinearLayout>
 
 

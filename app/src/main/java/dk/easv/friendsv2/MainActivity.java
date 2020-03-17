@@ -8,17 +8,15 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import dk.easv.friendsv2.Model.BEFriend;
 import dk.easv.friendsv2.Model.Friends;
 
 public class MainActivity extends ListActivity {
-
+    static final int REQUEST_SHOW_DETAILS = 1;
     public static String TAG = "Friend2";
-
     Friends m_friends;
-
+    int entryPosition;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,17 +44,21 @@ public class MainActivity extends ListActivity {
         Intent x = new Intent(this, DetailActivity.class);
         Log.d(TAG, "Detail activity will be started");
         BEFriend friend = m_friends.getAll().get(position);
-        addData(x, friend);
-        startActivity(x);
+        entryPosition = position;
+        x.putExtra("friend",friend);
+        startActivityForResult(x,REQUEST_SHOW_DETAILS);
         Log.d(TAG, "Detail activity is started");
 
     }
 
-    private void addData(Intent x, BEFriend f)
-    {
-        x.putExtra("friend", f);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SHOW_DETAILS && resultCode == RESULT_OK) {
+            updatePicture(data);
+        }
     }
-
-
-
+    private void updatePicture(Intent data){
+        BEFriend updatedFriend = (BEFriend) data.getSerializableExtra("friend");
+        m_friends.getAll().get(entryPosition).setThumbnailFilePath(updatedFriend.getThumbnailFilePath());
+    }
 }

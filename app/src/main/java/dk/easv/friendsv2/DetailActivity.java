@@ -1,11 +1,13 @@
 package dk.easv.friendsv2;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,21 +32,19 @@ import dk.easv.friendsv2.Model.BEFriend;
 
 
 public class DetailActivity extends AppCompatActivity {
-
+    public static final String JOKE = "/storage/emulated/0/Android/data/dk.easv.friendsv2/Files/matesome.jpg";
     String TAG = MainActivity.TAG;
     EditText etName,etPhone,etEmail,etURL;
-    Button smsButt,callButt,mailButt,wwwButt;
+    Button smsButt,callButt,mailButt,wwwButt,saveButt,returnButt;
     CheckBox cbFavorite;
-    BEFriend f;
+    BEFriend friend;
     ImageView picture;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Log.d(TAG, "Detail Activity started");
-        f = (BEFriend) getIntent().getSerializableExtra("friend");
-        picture = findViewById(R.id.picture);
-        initializeViews();
+        friend = (BEFriend) getIntent().getSerializableExtra("friend");
+        findViews();
         setGUI();
         setButtonsFunctionality();
     }
@@ -80,15 +80,35 @@ public class DetailActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
+        saveButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveAndReturn();
+            }
+        });
+        returnButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
+
+    private void saveAndReturn() {
+        Intent i = new Intent();
+        i.putExtra("friend", friend);
+        setResult(Activity.RESULT_OK,i);
+        finish();
+    }
+
     private void makeCall() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + f.getPhone()));
+        intent.setData(Uri.parse("tel:" + friend.getPhone()));
         startActivity(intent);
     }
     private void startBrowser()
     {
-        String url = f.getURL();
+        String url = friend.getURL();
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
@@ -96,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
     private void sendEmail() {
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
-        String[] receivers = { f.getEmail() };
+        String[] receivers = { friend.getEmail() };
         emailIntent.putExtra(Intent.EXTRA_EMAIL, receivers);
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Test");
         emailIntent.putExtra(Intent.EXTRA_TEXT,
@@ -130,7 +150,7 @@ public class DetailActivity extends AppCompatActivity {
 
         SmsManager m = SmsManager.getDefault();
         String text = "Hi, it goes well on the android course...";
-        m.sendTextMessage(f.getPhone(), null, text, null, null);
+        m.sendTextMessage(friend.getPhone(), null, text, null, null);
     }
 
     @Override
@@ -146,7 +166,7 @@ public class DetailActivity extends AppCompatActivity {
                 SmsManager m = SmsManager.getDefault();
 
                 String text = "Hi, it goes well on the android course...";
-                m.sendTextMessage(f.getPhone(), null, text, null, null);
+                m.sendTextMessage(friend.getPhone(), null, text, null, null);
             }
         }
         else
@@ -157,7 +177,7 @@ public class DetailActivity extends AppCompatActivity {
     {
 
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
-        sendIntent.setData(Uri.parse("sms:" + f.getPhone()));
+        sendIntent.setData(Uri.parse("sms:" + friend.getPhone()));
         sendIntent.putExtra("sms_body", "Hi, it goes well on the android course...");
         startActivity(sendIntent);
     }
@@ -183,7 +203,8 @@ public class DetailActivity extends AppCompatActivity {
 
         alertDialog.show();
     }
-    private void initializeViews() {
+    private void findViews() {
+        picture = findViewById(R.id.picture);
         etName = findViewById(R.id.etName);
         etPhone = findViewById(R.id.etPhone);
         cbFavorite = findViewById(R.id.cbFavorite);
@@ -193,16 +214,17 @@ public class DetailActivity extends AppCompatActivity {
         callButt = findViewById(R.id.callButt);
         mailButt = findViewById(R.id.mailButt);
         wwwButt = findViewById(R.id.wwwButt);
+        saveButt = findViewById(R.id.saveButt);
+        returnButt = findViewById(R.id.returnButt);
     }
 
-    private void setGUI()
-    {
-        etName.setText(f.getName());
-        etPhone.setText(f.getPhone());
-        cbFavorite.setChecked(f.isFavorite());
-        etEmail.setText(f.getEmail());
-        etURL.setText(f.getURL());
-
+    private void setGUI() {
+        etName.setText(friend.getName());
+        etPhone.setText(friend.getPhone());
+        cbFavorite.setChecked(friend.isFavorite());
+        etEmail.setText(friend.getEmail());
+        etURL.setText(friend.getURL());
+        setPicture(friend.getThumbnailFilePath());
     }
 
 
@@ -213,19 +235,9 @@ public class DetailActivity extends AppCompatActivity {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            // Create the File where the photo should go
-
-            // Continue only if the File was successfully created
-            /*
-             if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "dk.easv.friendsv2.fileprovider",
-                        photoFile);
-             */
-            //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
         }
-        //}
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -241,6 +253,16 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         }
+    }//JPEG_20200317_183459
+    private void setPicture(String filePath) {
+
+        Bitmap bitmap;
+        if(filePath == null)
+             bitmap = BitmapFactory.decodeFile(JOKE);
+        else
+            bitmap = BitmapFactory.decodeFile(filePath);
+
+        picture.setImageBitmap(bitmap);
     }
     String currentPhotoPath;
     private File createImageFile() {
@@ -261,7 +283,7 @@ public class DetailActivity extends AppCompatActivity {
         mediaFile = new File(mediaStorageDir.getPath() + File.separator + imageFileName);
 
         // Save a xml: path for use with ACTION_VIEW intents
-        f.setThumbnailFileName(mediaFile.getPath());
+        friend.setThumbnailFilePath(mediaFile.getPath());
         return mediaFile;
     }
 
