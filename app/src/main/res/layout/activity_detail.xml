@@ -19,7 +19,7 @@
         android:id="@+id/picture"
         android:layout_width="match_parent"
         android:layout_height="143dp"
-        app:srcCompat="@android:drawable/btn_dialog" />
+        app:srcCompat="@mipmap/matesome" />
 
     <TableLayout
         android:layout_width="fill_parent"

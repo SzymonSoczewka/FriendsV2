@@ -32,7 +32,6 @@ import dk.easv.friendsv2.Model.BEFriend;
 
 
 public class DetailActivity extends AppCompatActivity {
-    public static final String JOKE = "/storage/emulated/0/Android/data/dk.easv.friendsv2/Files/matesome.jpg";
     String TAG = MainActivity.TAG;
     EditText etName,etPhone,etEmail,etURL;
     Button smsButt,callButt,mailButt,wwwButt,saveButt,returnButt;
@@ -253,18 +252,13 @@ public class DetailActivity extends AppCompatActivity {
 
             }
         }
-    }//JPEG_20200317_183459
-    private void setPicture(String filePath) {
-
-        Bitmap bitmap;
-        if(filePath == null)
-             bitmap = BitmapFactory.decodeFile(JOKE);
-        else
-            bitmap = BitmapFactory.decodeFile(filePath);
-
-        picture.setImageBitmap(bitmap);
     }
-    String currentPhotoPath;
+    private void setPicture(String filePath) {
+        if(filePath != null){
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+            picture.setImageBitmap(bitmap);
+        }
+    }
     private File createImageFile() {
         // Checks whether the SD card is mounted or not
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
