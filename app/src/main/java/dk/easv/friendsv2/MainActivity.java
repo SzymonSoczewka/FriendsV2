@@ -15,6 +15,7 @@ import dk.easv.friendsv2.Model.Friends;
 public class MainActivity extends ListActivity {
     static final int REQUEST_SHOW_DETAILS = 1;
     public static String TAG = "Friend2";
+    ListAdapter adapter;
     Friends m_friends;
     int entryPosition;
     @Override
@@ -22,18 +23,7 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         this.setTitle("Friends v2");
         m_friends = new Friends();
-
-        String[] friends;
-
-        friends = m_friends.getNames();
-
-        ListAdapter adapter =
-                new ArrayAdapter<String>(this,
-                        android.R.layout.simple_list_item_1,
-                        friends);
-
-        setListAdapter(adapter);
-
+        setAdapter(m_friends);
     }
 
 
@@ -54,11 +44,54 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SHOW_DETAILS && resultCode == RESULT_OK) {
-            updatePicture(data);
+            updateFriend(data);
         }
     }
-    private void updatePicture(Intent data){
+    private void updateFriend(Intent data){
         BEFriend updatedFriend = (BEFriend) data.getSerializableExtra("friend");
-        m_friends.getAll().get(entryPosition).setThumbnailFilePath(updatedFriend.getThumbnailFilePath());
+        BEFriend friend = m_friends.getAll().get(entryPosition);
+        updateName(friend,updatedFriend.getName());
+        updateEmail(friend,updatedFriend.getEmail());
+        updatePhone(friend,updatedFriend.getPhone());
+        updateURL(friend,updatedFriend.getURL());
+        updatePicture(friend,updatedFriend.getThumbnailFilePath());
+        updateFavorite(friend,updatedFriend.isFavorite());
+    }
+
+    private void updateName(BEFriend friend,String name){
+        if(!isNullOrEmpty(name)) {
+            friend.setName(name);
+            setAdapter(m_friends);
+        }
+    }
+    private void updatePhone(BEFriend friend,String phone){
+        if(!isNullOrEmpty(phone))
+            friend.setPhone(phone);
+    }
+    private void updateEmail(BEFriend friend,String email){
+        if(!isNullOrEmpty(email))
+            friend.setEmail(email);
+    }
+    private void updateURL(BEFriend friend,String url){
+        if(!isNullOrEmpty(url))
+            friend.setURL(url);
+    }
+    private void updatePicture(BEFriend friend,String filePath){
+        if(!isNullOrEmpty(filePath))
+            friend.setThumbnailFilePath(filePath);
+    }
+    private void updateFavorite(BEFriend friend,boolean favorite){
+            friend.setFavorite(favorite);
+    }
+
+    public static boolean isNullOrEmpty(String param) {
+        return param == null || param.length() == 0;
+    }
+    private void setAdapter(Friends friends){
+        adapter =
+                new ArrayAdapter<String>(this,
+                        android.R.layout.simple_list_item_1,
+                        friends.getNames());
+        setListAdapter(adapter);
     }
 }

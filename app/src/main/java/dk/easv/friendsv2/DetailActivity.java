@@ -32,6 +32,9 @@ import dk.easv.friendsv2.Model.BEFriend;
 
 
 public class DetailActivity extends AppCompatActivity {
+
+    static final int REQUEST_TAKE_PHOTO = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     String TAG = MainActivity.TAG;
     EditText etName,etPhone,etEmail,etURL;
     Button smsButt,callButt,mailButt,wwwButt,saveButt,returnButt;
@@ -95,6 +98,11 @@ public class DetailActivity extends AppCompatActivity {
 
     private void saveAndReturn() {
         Intent i = new Intent();
+        friend.setName(etName.getText().toString());
+        friend.setURL(etURL.getText().toString());
+        friend.setEmail(etEmail.getText().toString());
+        friend.setPhone(etPhone.getText().toString());
+        friend.setFavorite(cbFavorite.isChecked());
         i.putExtra("friend", friend);
         setResult(Activity.RESULT_OK,i);
         finish();
@@ -225,10 +233,6 @@ public class DetailActivity extends AppCompatActivity {
         etURL.setText(friend.getURL());
         setPicture(friend.getThumbnailFilePath());
     }
-
-
-    static final int REQUEST_TAKE_PHOTO = 1;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

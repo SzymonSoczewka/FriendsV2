@@ -34,6 +34,26 @@ public class BEFriend implements Serializable {
 
     public String getEmail() { return m_email; }
 
+    public void setURL(String m_URL) {
+        this.m_URL = m_URL;
+    }
+
+    public void setEmail(String m_email) {
+        this.m_email = m_email;
+    }
+
+    public void setFavorite(Boolean m_isFavorite) {
+        this.m_isFavorite = m_isFavorite;
+    }
+
+    public void setPhone(String m_phone) {
+        this.m_phone = m_phone;
+    }
+
+    public void setName(String m_name) {
+        this.m_name = m_name;
+    }
+
     public String getURL() { return  m_URL; }
 
 
