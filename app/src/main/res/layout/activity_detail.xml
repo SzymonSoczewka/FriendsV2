@@ -27,7 +27,7 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="5dip">
 
             <TextView android:text="Name:" />
@@ -38,33 +38,33 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:padding="5dip">
 
-            <TextView android:text="Phone:" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address:" />
 
             <EditText
-                android:id="@+id/etPhone"
-                android:text="Phone" />
+                android:id="@+id/etAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address" />
 
-        </TableRow>
-
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="5dip">
-
-            <TextView android:text="Favorite:" />
-
-            <CheckBox
-                android:id="@+id/cbFavorite"
-                android:checked="false" />
+            <ImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/google_maps_old_64px" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="53dp">
+            android:layout_height="53dp"
+            android:padding="5dip">
 
             <TextView
                 android:id="@+id/textView"
@@ -80,16 +80,17 @@
                 android:inputType="textPersonName"
                 android:text="Email" />
 
-            <Button
-                android:id="@+id/mailButt"
+            <ImageView
+                android:id="@+id/mailIcon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Send Mail" />
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/email_sign_64px" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="5dip">
 
             <TextView
                 android:id="@+id/textView2"
@@ -105,11 +106,28 @@
                 android:inputType="textPersonName"
                 android:text="URL" />
 
-            <Button
-                android:id="@+id/wwwButt"
+            <ImageView
+                android:id="@+id/wwwIcon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="WWW" />
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/internet_64px" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dip">
+
+            <TextView
+                android:id="@+id/g"
+                android:layout_width="wrap_content"
+                android:gravity="left"
+                android:text="Phone:" />
+
+            <EditText
+                android:id="@+id/etPhone"
+                android:text="Phone" />
+
         </TableRow>
 
         <!--
@@ -153,7 +171,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="118dp"
+        android:layout_height="101dp"
         android:orientation="horizontal"></LinearLayout>
 
     <LinearLayout
@@ -161,18 +179,19 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/returnButt"
-            android:layout_width="141dp"
+        <ImageView
+            android:id="@+id/removeIcon"
+            android:layout_width="84dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/trash_can_64px" />
+
+        <ImageView
+            android:id="@+id/saveIcon"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Return" />
-
-        <Button
-            android:id="@+id/saveButt"
-            android:layout_width="197dp"
-            android:layout_height="wrap_content"
-            android:text="Save" />
+            app:srcCompat="@drawable/save_64px" />
 
     </LinearLayout>
 

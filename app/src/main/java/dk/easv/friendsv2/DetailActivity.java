@@ -15,9 +15,9 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -35,21 +35,38 @@ public class DetailActivity extends AppCompatActivity {
 
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int RESULT_DELETED = 2137;
     String TAG = MainActivity.TAG;
     EditText etName,etPhone,etEmail,etURL;
-    Button smsButt,callButt,mailButt,wwwButt,saveButt,returnButt;
-    CheckBox cbFavorite;
+    Button smsButt,callButt;
     BEFriend friend;
-    ImageView picture;
+    ImageView picture,mail_Icon,www_Icon,save_Icon,remove_Icon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         friend = (BEFriend) getIntent().getSerializableExtra("friend");
         findViews();
+        etName.setClickable(false);
         setGUI();
         setButtonsFunctionality();
     }
+
+    // When back arrow is clicked, activity is finished and user redirected to the main activity
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
+    }
+
+
+
 
     private void setButtonsFunctionality() {
         smsButt.setOnClickListener(new View.OnClickListener() {
@@ -64,13 +81,13 @@ public class DetailActivity extends AppCompatActivity {
                 makeCall();
             }
         });
-        wwwButt.setOnClickListener(new View.OnClickListener() {
+        www_Icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startBrowser();
             }
         });
-        mailButt.setOnClickListener(new View.OnClickListener() {
+        mail_Icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendEmail();
@@ -82,31 +99,35 @@ public class DetailActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
-        saveButt.setOnClickListener(new View.OnClickListener() {
+        save_Icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveAndReturn();
+                save();
             }
         });
-        returnButt.setOnClickListener(new View.OnClickListener() {
+        remove_Icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+        removeFriend();
             }
         });
     }
 
-    private void saveAndReturn() {
+    private void save() {
         Intent i = new Intent();
         friend.setName(etName.getText().toString());
         friend.setURL(etURL.getText().toString());
         friend.setEmail(etEmail.getText().toString());
         friend.setPhone(etPhone.getText().toString());
-        friend.setFavorite(cbFavorite.isChecked());
         i.putExtra("friend", friend);
         setResult(Activity.RESULT_OK,i);
         finish();
     }
+    private void removeFriend(){
+        setResult(RESULT_DELETED,new Intent());
+        finish();
+    }
+
 
     private void makeCall() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -214,21 +235,19 @@ public class DetailActivity extends AppCompatActivity {
         picture = findViewById(R.id.picture);
         etName = findViewById(R.id.etName);
         etPhone = findViewById(R.id.etPhone);
-        cbFavorite = findViewById(R.id.cbFavorite);
         etURL = findViewById(R.id.etURL);
         etEmail = findViewById(R.id.etEmail);
         smsButt = findViewById(R.id.smsButt);
         callButt = findViewById(R.id.callButt);
-        mailButt = findViewById(R.id.mailButt);
-        wwwButt = findViewById(R.id.wwwButt);
-        saveButt = findViewById(R.id.saveButt);
-        returnButt = findViewById(R.id.returnButt);
+        mail_Icon = findViewById(R.id.mailIcon);
+        www_Icon = findViewById(R.id.wwwIcon);
+        save_Icon = findViewById(R.id.saveIcon);
+        remove_Icon = findViewById(R.id.removeIcon);
     }
 
     private void setGUI() {
         etName.setText(friend.getName());
         etPhone.setText(friend.getPhone());
-        cbFavorite.setChecked(friend.isFavorite());
         etEmail.setText(friend.getEmail());
         etURL.setText(friend.getURL());
         setPicture(friend.getThumbnailFilePath());

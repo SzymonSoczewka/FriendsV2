@@ -3,20 +3,21 @@ package dk.easv.friendsv2.Model;
 
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class BEFriend implements Serializable {
 
     private String m_name;
+    private String m_address;
     private String m_phone;
-    private Boolean m_isFavorite;
     private String m_email;
+    private Date m_date;
     private String m_URL;
     private String thumbnailFilePath;
 
     BEFriend(String name, String phone, Boolean isFavorite, String email, String url) {
         m_name = name;
         m_phone = phone;
-        m_isFavorite = isFavorite;
         m_email = email;
         m_URL = url;
     }
@@ -30,7 +31,6 @@ public class BEFriend implements Serializable {
         return m_name;
     }
 
-    public Boolean isFavorite() { return m_isFavorite; }
 
     public String getEmail() { return m_email; }
 
@@ -42,9 +42,6 @@ public class BEFriend implements Serializable {
         this.m_email = m_email;
     }
 
-    public void setFavorite(Boolean m_isFavorite) {
-        this.m_isFavorite = m_isFavorite;
-    }
 
     public void setPhone(String m_phone) {
         this.m_phone = m_phone;
@@ -63,5 +60,21 @@ public class BEFriend implements Serializable {
 
     public void setThumbnailFilePath(String thumbnailFilePath) {
         this.thumbnailFilePath = thumbnailFilePath;
+    }
+
+    public Date getM_date() {
+        return m_date;
+    }
+
+    public void setM_date(Date m_date) {
+        this.m_date = m_date;
+    }
+
+    public String getM_address() {
+        return m_address;
+    }
+
+    public void setM_address(String m_address) {
+        this.m_address = m_address;
     }
 }
