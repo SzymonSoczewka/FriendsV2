@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".DetailActivity"
+
             android:parentActivityName=".MainActivity"></activity>
         <activity
             android:name=".MainActivity"

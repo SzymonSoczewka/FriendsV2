@@ -3,6 +3,7 @@ package dk.easv.friendsv2;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,10 +15,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -26,6 +29,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import dk.easv.friendsv2.Model.BEFriend;
@@ -35,12 +39,14 @@ public class DetailActivity extends AppCompatActivity {
 
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int PERMISSION_TO_SMS_CODE = 1;
     static final int RESULT_DELETED = 2137;
+    DatePickerDialog picker;
     String TAG = MainActivity.TAG;
-    EditText etName,etPhone,etEmail,etURL;
+    EditText etName,etPhone,etEmail,etURL,etBirthday;
     Button smsButt,callButt;
     BEFriend friend;
-    ImageView picture,mail_Icon,www_Icon,save_Icon,remove_Icon;
+    ImageView picture,mail_Icon,www_Icon,save_Icon,remove_Icon,calendar_Icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,7 @@ public class DetailActivity extends AppCompatActivity {
         etName.setClickable(false);
         setGUI();
         setButtonsFunctionality();
+
     }
 
     // When back arrow is clicked, activity is finished and user redirected to the main activity
@@ -111,6 +118,29 @@ public class DetailActivity extends AppCompatActivity {
         removeFriend();
             }
         });
+        calendar_Icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pickDate();
+            }
+        });
+
+    }
+    private void pickDate(){
+        final Calendar cldr = Calendar.getInstance();
+        int day = cldr.get(Calendar.DAY_OF_MONTH);
+        int month = cldr.get(Calendar.MONTH);
+        int year = cldr.get(Calendar.YEAR);
+        // date picker dialog
+        picker = new DatePickerDialog(DetailActivity.this,
+                android.R.style.Theme_Holo_Dialog,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        etBirthday.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+                }, year, month, day);
+        picker.show();
     }
 
     private void save() {
@@ -151,7 +181,7 @@ public class DetailActivity extends AppCompatActivity {
                 "Hej, Hope that it is ok, Best Regards android...;-)");
         startActivity(emailIntent);
     }
-    static int PERMISSION_TO_SMS_CODE = 1;
+
     private void sendSMS() {
         Toast.makeText(this, "An sms will be send", Toast.LENGTH_LONG)
                 .show();
@@ -237,12 +267,14 @@ public class DetailActivity extends AppCompatActivity {
         etPhone = findViewById(R.id.etPhone);
         etURL = findViewById(R.id.etURL);
         etEmail = findViewById(R.id.etEmail);
+        etBirthday = findViewById(R.id.etBirthday);
         smsButt = findViewById(R.id.smsButt);
         callButt = findViewById(R.id.callButt);
         mail_Icon = findViewById(R.id.mailIcon);
         www_Icon = findViewById(R.id.wwwIcon);
         save_Icon = findViewById(R.id.saveIcon);
         remove_Icon = findViewById(R.id.removeIcon);
+        calendar_Icon = findViewById(R.id.calendar_Icon);
     }
 
     private void setGUI() {

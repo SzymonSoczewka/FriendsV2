@@ -119,6 +119,38 @@
             android:padding="5dip">
 
             <TextView
+                android:id="@+id/g3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Birthday:" />
+
+            <EditText
+                android:id="@+id/etBirthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="10/10/2020"
+                android:longClickable="false"
+                android:clickable="false"
+                android:linksClickable="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"/>
+
+            <ImageView
+                android:id="@+id/calendar_Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/calendar_64px" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="5dip">
+
+            <TextView
                 android:id="@+id/g"
                 android:layout_width="wrap_content"
                 android:gravity="left"
@@ -171,7 +203,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="101dp"
+        android:layout_height="63dp"
         android:orientation="horizontal"></LinearLayout>
 
     <LinearLayout
