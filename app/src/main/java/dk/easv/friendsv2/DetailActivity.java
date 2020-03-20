@@ -28,6 +28,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -137,7 +138,8 @@ public class DetailActivity extends AppCompatActivity {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        etBirthday.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        String dateAsString = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                        etBirthday.setText(dateAsString);
                     }
                 }, year, month, day);
         picker.show();
@@ -149,6 +151,7 @@ public class DetailActivity extends AppCompatActivity {
         friend.setURL(etURL.getText().toString());
         friend.setEmail(etEmail.getText().toString());
         friend.setPhone(etPhone.getText().toString());
+        friend.setBirthday(etBirthday.getText().toString());
         i.putExtra("friend", friend);
         setResult(Activity.RESULT_OK,i);
         finish();
@@ -282,6 +285,7 @@ public class DetailActivity extends AppCompatActivity {
         etPhone.setText(friend.getPhone());
         etEmail.setText(friend.getEmail());
         etURL.setText(friend.getURL());
+        etBirthday.setText(friend.getBirthday());
         setPicture(friend.getThumbnailFilePath());
     }
 

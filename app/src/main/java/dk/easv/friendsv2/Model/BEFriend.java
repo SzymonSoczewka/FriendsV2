@@ -3,55 +3,54 @@ package dk.easv.friendsv2.Model;
 
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class BEFriend implements Serializable {
 
-    private String m_name;
-    private String m_address;
-    private String m_phone;
-    private String m_email;
-    private Date m_date;
-    private String m_URL;
+    private String name;
+    private String address;
+    private String phone;
+    private String email;
+    private String birthday;
+    private String url;
     private String thumbnailFilePath;
 
-    BEFriend(String name, String phone, Boolean isFavorite, String email, String url) {
-        m_name = name;
-        m_phone = phone;
-        m_email = email;
-        m_URL = url;
+    BEFriend(String name, String phone , String email, String url) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.url = url;
     }
 
     public String getPhone() {
-        return m_phone;
+        return phone;
     }
 
 
     public String getName() {
-        return m_name;
+        return name;
     }
 
 
-    public String getEmail() { return m_email; }
+    public String getEmail() { return email; }
 
-    public void setURL(String m_URL) {
-        this.m_URL = m_URL;
+    public void setURL(String url) {
+        this.url = url;
     }
 
-    public void setEmail(String m_email) {
-        this.m_email = m_email;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 
-    public void setPhone(String m_phone) {
-        this.m_phone = m_phone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public void setName(String m_name) {
-        this.m_name = m_name;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getURL() { return  m_URL; }
+    public String getURL() { return url; }
 
 
     public String getThumbnailFilePath() {
@@ -62,19 +61,19 @@ public class BEFriend implements Serializable {
         this.thumbnailFilePath = thumbnailFilePath;
     }
 
-    public Date getM_date() {
-        return m_date;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setM_date(Date m_date) {
-        this.m_date = m_date;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
-    public String getM_address() {
-        return m_address;
+    public String getAddress() {
+        return address;
     }
 
-    public void setM_address(String m_address) {
-        this.m_address = m_address;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

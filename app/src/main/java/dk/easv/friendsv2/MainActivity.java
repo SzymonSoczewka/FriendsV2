@@ -3,9 +3,12 @@ package dk.easv.friendsv2;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.Date;
+
 import dk.easv.friendsv2.Model.BEFriend;
 import dk.easv.friendsv2.Model.Friends;
 
@@ -53,6 +56,7 @@ public class MainActivity extends ListActivity {
         updatePhone(friend,updatedFriend.getPhone());
         updateURL(friend,updatedFriend.getURL());
         updatePicture(friend,updatedFriend.getThumbnailFilePath());
+        updateBirthday(friend,updatedFriend.getBirthday());
     }
     private void removeFriend(){
         m_friends.remove(entryPosition);
@@ -78,6 +82,13 @@ public class MainActivity extends ListActivity {
     private void updatePicture(BEFriend friend,String filePath){
         if(!isNullOrEmpty(filePath))
             friend.setThumbnailFilePath(filePath);
+    }
+    private void updateBirthday(BEFriend friend, String birthday){
+        if(!isNullOrEmpty(birthday)) {
+            Log.v("Data: ",birthday);
+            friend.setBirthday(birthday);
+        }
+
     }
 
     public static boolean isNullOrEmpty(String param) {
