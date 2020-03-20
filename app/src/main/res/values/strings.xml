@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FriendsV2</string>
+    <string name="details">Details</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+    <string name="url">URL</string>
+    <string name="birthday">Birthday</string>
+    <string name="birthday_example">01/01/2000</string>
+    <string name="phone">Phone</string>
+    <string name="friend_pitcure">This is friend picture</string>
+    <string name="icon">Icon image</string>
 </resources>

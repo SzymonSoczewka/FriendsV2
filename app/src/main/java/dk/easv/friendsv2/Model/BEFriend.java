@@ -2,6 +2,8 @@ package dk.easv.friendsv2.Model;
 
 
 
+import android.util.Log;
+
 import java.io.Serializable;
 
 public class BEFriend implements Serializable {
@@ -14,11 +16,12 @@ public class BEFriend implements Serializable {
     private String url;
     private String thumbnailFilePath;
 
-    BEFriend(String name, String phone , String email, String url) {
+    BEFriend(String name, String phone , String email, String url, String address) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.url = url;
+        this.address = address;
     }
 
     public String getPhone() {
@@ -33,22 +36,7 @@ public class BEFriend implements Serializable {
 
     public String getEmail() { return email; }
 
-    public void setURL(String url) {
-        this.url = url;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getURL() { return url; }
 
@@ -57,23 +45,43 @@ public class BEFriend implements Serializable {
         return thumbnailFilePath;
     }
 
-    public void setThumbnailFilePath(String thumbnailFilePath) {
-        this.thumbnailFilePath = thumbnailFilePath;
-    }
-
     public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
 
     public String getAddress() {
         return address;
     }
-
-    public void setAddress(String address) {
+    public void setAddress(String address){
         this.address = address;
+    }
+    public void setName(String name){
+        if(!isNullOrEmpty(name))
+            this.name = name;
+
+    }
+    public void setPhone(String phone){
+        if(!isNullOrEmpty(phone))
+            this.phone = phone;
+    }
+    public void setEmail(String email){
+        if(!isNullOrEmpty(email))
+            this.email = email;
+    }
+    public void setURL(String url){
+        if(!isNullOrEmpty(url))
+            this.url = url;
+    }
+    public void setThumbnailFilePath(String filePath){
+        if(!isNullOrEmpty(filePath))
+            this.thumbnailFilePath = filePath;
+    }
+    public void setBirthday(String birthday) {
+        if (!isNullOrEmpty(birthday))
+            this.birthday = birthday;
+    }
+    private static boolean isNullOrEmpty(String param) {
+        return param == null || param.length() == 0;
     }
 }

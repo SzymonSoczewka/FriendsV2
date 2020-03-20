@@ -15,7 +15,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
-import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +23,9 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +41,7 @@ public class DetailActivity extends AppCompatActivity {
     static final int RESULT_DELETED = 2137;
     DatePickerDialog picker;
     String TAG = MainActivity.TAG;
-    EditText etName,etPhone,etEmail,etURL,etBirthday;
+    EditText etName,etPhone,etEmail,etURL,etBirthday,etAddress;
     Button smsButt,callButt;
     BEFriend friend;
     ImageView picture,mail_Icon,www_Icon,save_Icon,remove_Icon,calendar_Icon;
@@ -152,6 +149,7 @@ public class DetailActivity extends AppCompatActivity {
         friend.setEmail(etEmail.getText().toString());
         friend.setPhone(etPhone.getText().toString());
         friend.setBirthday(etBirthday.getText().toString());
+        friend.setAddress(etAddress.getText().toString());
         i.putExtra("friend", friend);
         setResult(Activity.RESULT_OK,i);
         finish();
@@ -271,6 +269,7 @@ public class DetailActivity extends AppCompatActivity {
         etURL = findViewById(R.id.etURL);
         etEmail = findViewById(R.id.etEmail);
         etBirthday = findViewById(R.id.etBirthday);
+        etAddress = findViewById(R.id.etAddress);
         smsButt = findViewById(R.id.smsButt);
         callButt = findViewById(R.id.callButt);
         mail_Icon = findViewById(R.id.mailIcon);
@@ -286,6 +285,7 @@ public class DetailActivity extends AppCompatActivity {
         etEmail.setText(friend.getEmail());
         etURL.setText(friend.getURL());
         etBirthday.setText(friend.getBirthday());
+        etAddress.setText(friend.getAddress());
         setPicture(friend.getThumbnailFilePath());
     }
 

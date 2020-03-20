@@ -9,16 +9,17 @@
 
     <TextView
         android:id="@+id/tvHeader"
+        style="@style/Base.TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Detail"
         android:layout_gravity="center"
-        style="@style/Base.TextAppearance.AppCompat.Large"/>
+        android:text="@string/details" />
 
     <ImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
         android:layout_height="143dp"
+        android:contentDescription="@string/friend_pitcure"
         app:srcCompat="@mipmap/matesome" />
 
     <TableLayout
@@ -30,11 +31,11 @@
             android:layout_height="match_parent"
             android:padding="5dip">
 
-            <TextView android:text="Name:" />
+            <TextView android:text="@string/name" />
 
             <EditText
                 android:id="@+id/etName"
-                android:text="Name" />
+                android:text="@string/name" />
         </TableRow>
 
         <TableRow
@@ -46,18 +47,20 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address:" />
+                android:text="@string/address" />
 
             <EditText
                 android:id="@+id/etAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Address" />
+                android:inputType="text"
+                android:text="@string/address" />
 
             <ImageView
                 android:id="@+id/locationIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/icon"
                 app:srcCompat="@drawable/google_maps_old_64px" />
         </TableRow>
 
@@ -70,7 +73,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email:" />
+                android:text="@string/email" />
 
             <EditText
                 android:id="@+id/etEmail"
@@ -78,12 +81,13 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="Email" />
+                android:text="@string/email" />
 
             <ImageView
                 android:id="@+id/mailIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/icon"
                 app:srcCompat="@drawable/email_sign_64px" />
         </TableRow>
 
@@ -96,7 +100,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="URL:" />
+                android:text="@string/url" />
 
             <EditText
                 android:id="@+id/etURL"
@@ -104,12 +108,13 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="URL" />
+                android:text="@string/url" />
 
             <ImageView
                 android:id="@+id/wwwIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/icon"
                 app:srcCompat="@drawable/internet_64px" />
         </TableRow>
 
@@ -123,24 +128,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="Birthday:" />
+                android:text="@string/birthday" />
 
             <EditText
                 android:id="@+id/etBirthday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="10/10/2020"
-                android:longClickable="false"
                 android:clickable="false"
-                android:linksClickable="false"
+                android:ems="10"
                 android:focusable="false"
-                android:focusableInTouchMode="false"/>
+                android:focusableInTouchMode="false"
+                android:linksClickable="false"
+                android:longClickable="false"
+                android:text="@string/birthday_example" />
 
             <ImageView
                 android:id="@+id/calendar_Icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/icon"
                 app:srcCompat="@drawable/calendar_64px" />
 
         </TableRow>
@@ -153,12 +159,12 @@
             <TextView
                 android:id="@+id/g"
                 android:layout_width="wrap_content"
-                android:gravity="left"
-                android:text="Phone:" />
+                android:gravity="start"
+                android:text="@string/phone" />
 
             <EditText
                 android:id="@+id/etPhone"
-                android:text="Phone" />
+                android:text="@string/phone" />
 
         </TableRow>
 
@@ -216,6 +222,7 @@
             android:layout_width="84dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:contentDescription="@string/icon"
             app:srcCompat="@drawable/trash_can_64px" />
 
         <ImageView
@@ -223,6 +230,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/icon"
             app:srcCompat="@drawable/save_64px" />
 
     </LinearLayout>
