@@ -21,5 +21,7 @@ public class Friends {
 	
 	public ArrayList<BEFriend> getAll()
 	{ return m_friends; }
-
+	public void AddFriend(BEFriend friend){
+		m_friends.add(friend);
+	}
 }

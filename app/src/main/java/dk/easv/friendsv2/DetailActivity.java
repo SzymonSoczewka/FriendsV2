@@ -39,11 +39,13 @@ public class DetailActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int PERMISSION_TO_SMS_CODE = 1;
     static final int RESULT_DELETED = 2137;
+    static final int RESULT_CREATED = 1234;
     DatePickerDialog picker;
     String TAG = MainActivity.TAG;
     EditText etName,etPhone,etEmail,etURL,etBirthday,etAddress;
     Button smsButt,callButt;
     BEFriend friend;
+    boolean modeUpdate;
     ImageView picture,mail_Icon,www_Icon,save_Icon,remove_Icon,calendar_Icon;
 
     @Override
@@ -52,6 +54,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         friend = (BEFriend) getIntent().getSerializableExtra("friend");
+        modeUpdate = (Boolean) getIntent().getSerializableExtra("modeUpdate");
         findViews();
         etName.setClickable(false);
         setGUI();
@@ -151,7 +154,12 @@ public class DetailActivity extends AppCompatActivity {
         friend.setBirthday(etBirthday.getText().toString());
         friend.setAddress(etAddress.getText().toString());
         i.putExtra("friend", friend);
+
+        if(modeUpdate)
         setResult(Activity.RESULT_OK,i);
+        else
+        setResult(RESULT_CREATED,i);
+
         finish();
     }
     private void removeFriend(){

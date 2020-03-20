@@ -1,40 +1,57 @@
 package dk.easv.friendsv2;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import java.util.ArrayList;
 
 import dk.easv.friendsv2.Model.BEFriend;
 import dk.easv.friendsv2.Model.Friends;
 
-public class MainActivity extends ListActivity {
+public class MainActivity extends AppCompatActivity {
     static final int REQUEST_SHOW_DETAILS = 1;
     static final int RESULT_DELETED = 2137;
+    static final int RESULT_CREATED = 1234;
     public static String TAG = "Friend2";
     private FriendsAdapter arrayAdapter;
+    private ImageView create_Icon;
+    private ListView listView;
     ArrayList<BEFriend> m_friends;
     int entryPosition;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
         this.setTitle("MyFriends");
         m_friends = new Friends().getAll();
+        listView = findViewById(R.id.listView);
+        create_Icon = findViewById(R.id.create_Icon);
         setFriendsAdapter(m_friends);
-    }
-
-
-    @Override
-    public void onListItemClick(ListView parent, View v, int position,
-                                long id) {
-
-        Intent x = new Intent(this, DetailActivity.class);
-        BEFriend friend = m_friends.get(position);
-        entryPosition = position;
-        x.putExtra("friend",friend);
-        startActivityForResult(x,REQUEST_SHOW_DETAILS);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                Intent x = new Intent(getWindow().getContext(), DetailActivity.class);
+                BEFriend friend = m_friends.get(position);
+                entryPosition = position;
+                x.putExtra("friend",friend);
+                x.putExtra("modeUpdate",true);
+                startActivityForResult(x,REQUEST_SHOW_DETAILS);
+            }
+        });
+        create_Icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent x = new Intent(getWindow().getContext(), DetailActivity.class);
+                BEFriend friend = new BEFriend("Name","+45 12 34 56 78",null,null,null);
+                x.putExtra("modeUpdate",false);
+                x.putExtra("friend",friend);
+                startActivityForResult(x,REQUEST_SHOW_DETAILS);
+            }
+        });
     }
 
     @Override
@@ -43,6 +60,9 @@ public class MainActivity extends ListActivity {
             updateFriend(data);
         }else if(requestCode == REQUEST_SHOW_DETAILS && resultCode == RESULT_DELETED){
             removeFriend();
+        }
+        else if(requestCode == REQUEST_SHOW_DETAILS && resultCode == RESULT_CREATED){
+            createFriend(data);
         }
         arrayAdapter.notifyDataSetChanged();
     }
@@ -57,13 +77,17 @@ public class MainActivity extends ListActivity {
         friend.setThumbnailFilePath(updatedFriend.getThumbnailFilePath());
         friend.setURL(updatedFriend.getURL());
     }
+    private void createFriend(Intent data){
+        BEFriend newFriend = (BEFriend) data.getSerializableExtra("friend");
+        m_friends.add(newFriend);
+    }
     private void removeFriend(){
         m_friends.remove(entryPosition);
     }
-    
+
     private void setFriendsAdapter(ArrayList<BEFriend> friends) {
         arrayAdapter = new FriendsAdapter(getWindow().getContext(), friends);
         arrayAdapter.notifyDataSetChanged();
-        setListAdapter(arrayAdapter);
+        listView.setAdapter(arrayAdapter);
     }
 }

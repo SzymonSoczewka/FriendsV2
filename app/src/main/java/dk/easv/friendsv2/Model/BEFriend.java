@@ -2,7 +2,8 @@ package dk.easv.friendsv2.Model;
 
 
 
-import android.util.Log;
+import android.support.annotation.Nullable;
+
 
 import java.io.Serializable;
 
@@ -16,7 +17,7 @@ public class BEFriend implements Serializable {
     private String url;
     private String thumbnailFilePath;
 
-    BEFriend(String name, String phone , String email, String url, String address) {
+    public BEFriend(String name, String phone ,@Nullable String email,@Nullable String url,@Nullable String address) {
         this.name = name;
         this.phone = phone;
         this.email = email;
