@@ -1,18 +1,17 @@
 package dk.easv.friendsv2;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -27,6 +26,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,6 +48,7 @@ public class DetailActivity extends AppCompatActivity {
     boolean modeUpdate;
     ImageView picture,mail_Icon,www_Icon,save_Icon,remove_Icon,calendar_Icon;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +58,9 @@ public class DetailActivity extends AppCompatActivity {
         modeUpdate = (Boolean) getIntent().getSerializableExtra("modeUpdate");
         findViews();
         etName.setClickable(false);
-        setGUI();
+        loadUserInformation();
         setButtonsFunctionality();
-
+        hasBirthday();
     }
 
     // When back arrow is clicked, activity is finished and user redirected to the main activity
@@ -80,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
         smsButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showYesNoDialog();
+                startSMSActivity();
             }
         });
         callButt.setOnClickListener(new View.OnClickListener() {
@@ -122,12 +123,12 @@ public class DetailActivity extends AppCompatActivity {
         calendar_Icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pickDate();
+                selectDate();
             }
         });
 
     }
-    private void pickDate(){
+    private void selectDate(){
         final Calendar cldr = Calendar.getInstance();
         int day = cldr.get(Calendar.DAY_OF_MONTH);
         int month = cldr.get(Calendar.MONTH);
@@ -136,15 +137,40 @@ public class DetailActivity extends AppCompatActivity {
         picker = new DatePickerDialog(DetailActivity.this,
                 android.R.style.Theme_Holo_Dialog,
                 new DatePickerDialog.OnDateSetListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         String dateAsString = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                         etBirthday.setText(dateAsString);
+                        hasBirthday();
                     }
                 }, year, month, day);
+
         picker.show();
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void hasBirthday(){
+        String fBirthday = friend.getBirthday(); // Getting friend birthday - dd/MM/yyyy
+        if(fBirthday != null) {
+            LocalDate currentdate = LocalDate.now(); //Getting the current date value
+            int currentDay = currentdate.getDayOfMonth(); //Getting the current day
+            int currentMonth = currentdate.getMonthValue(); //Getting the current month
+            int currentYear = currentdate.getYear(); //getting the current year
 
+            int firstSlashIndex = fBirthday.indexOf('/');
+            int lastSlashIndex = fBirthday.lastIndexOf('/');
+            int day = Integer.parseInt(fBirthday.substring(0, firstSlashIndex)); //The day the user was born
+            int month = Integer.parseInt(fBirthday.substring(firstSlashIndex+1, lastSlashIndex)); //The month the user was born
+            int year = Integer.parseInt(fBirthday.substring(lastSlashIndex+1,fBirthday.length())); //The year the user was born
+
+            if(currentDay == day && currentMonth == month && currentYear > year){
+                findViewById(R.id.confetti).setVisibility(View.VISIBLE);
+                findViewById(R.id.birthdayCake).setVisibility(View.VISIBLE);
+                showToast("It's your friend birthday today!",Toast.LENGTH_LONG);
+            }
+        }
+
+    }
     private void save() {
         Intent i = new Intent();
         friend.setName(etName.getText().toString());
@@ -163,11 +189,16 @@ public class DetailActivity extends AppCompatActivity {
         finish();
     }
     private void removeFriend(){
-        setResult(RESULT_DELETED,new Intent());
-        finish();
+        if(modeUpdate) {
+            setResult(RESULT_DELETED, new Intent());
+            finish();
+        } else
+            showToast("You can't delete a user before it's created",Toast.LENGTH_SHORT);
     }
 
-
+    private void showToast(String message,int duration){
+        Toast.makeText(this,message,duration).show();
+    }
     private void makeCall() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:" + friend.getPhone()));
@@ -185,39 +216,7 @@ public class DetailActivity extends AppCompatActivity {
         emailIntent.setType("plain/text");
         String[] receivers = { friend.getEmail() };
         emailIntent.putExtra(Intent.EXTRA_EMAIL, receivers);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Test");
-        emailIntent.putExtra(Intent.EXTRA_TEXT,
-                "Hej, Hope that it is ok, Best Regards android...;-)");
         startActivity(emailIntent);
-    }
-
-    private void sendSMS() {
-        Toast.makeText(this, "An sms will be send", Toast.LENGTH_LONG)
-                .show();
-
-
-
-        Log.d(TAG, "Build version = " + android.os.Build.VERSION.SDK_INT);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-
-            if (checkSelfPermission(Manifest.permission.SEND_SMS)
-                    == PackageManager.PERMISSION_DENIED) {
-
-                Log.d(TAG, "permission denied to SEND_SMS - requesting it");
-                String[] permissions = {Manifest.permission.SEND_SMS};
-
-                requestPermissions(permissions, PERMISSION_TO_SMS_CODE);
-                return;
-
-            }
-            else
-                Log.d(TAG, "permission to SEND_SMS granted!");
-
-        }
-
-        SmsManager m = SmsManager.getDefault();
-        String text = "Hi, it goes well on the android course...";
-        m.sendTextMessage(friend.getPhone(), null, text, null, null);
     }
 
     @Override
@@ -242,33 +241,10 @@ public class DetailActivity extends AppCompatActivity {
     }
     private void startSMSActivity()
     {
-
         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
         sendIntent.setData(Uri.parse("sms:" + friend.getPhone()));
-        sendIntent.putExtra("sms_body", "Hi, it goes well on the android course...");
+        sendIntent.putExtra("sms_body", "Greeting from Szymon and Mate :)");
         startActivity(sendIntent);
-    }
-    private void showYesNoDialog()
-    {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-        alertDialogBuilder.setTitle("SMS Handling")
-                .setMessage("Click Direct if SMS should be send directly. Click Start to start SMS app...")
-                .setCancelable(true)
-                .setPositiveButton("Direct",new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog,int id) {
-                        DetailActivity.this.sendSMS();
-                    }
-                })
-                .setNegativeButton("Start", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        DetailActivity.this.startSMSActivity();
-                    }
-                });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        alertDialog.show();
     }
     private void findViews() {
         picture = findViewById(R.id.picture);
@@ -287,7 +263,7 @@ public class DetailActivity extends AppCompatActivity {
         calendar_Icon = findViewById(R.id.calendar_Icon);
     }
 
-    private void setGUI() {
+    private void loadUserInformation() {
         etName.setText(friend.getName());
         etPhone.setText(friend.getPhone());
         etEmail.setText(friend.getEmail());
@@ -316,7 +292,7 @@ public class DetailActivity extends AppCompatActivity {
                 imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             } catch (IOException ex) {
                 // Error occurred while creating the File
-
+                showToast("Something went wrong!",Toast.LENGTH_SHORT);
             }
         }
     }
