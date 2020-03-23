@@ -1,7 +1,9 @@
 package dk.easv.friendsv2;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -83,7 +85,8 @@ public class DetailActivity extends AppCompatActivity {
                 save();
                 break;
             case R.id.deleteButt:
-                deleteFriend();
+                //deleteFriend();
+                showYesNoDialog();
                 break;
         }
         return true;
@@ -317,6 +320,23 @@ public class DetailActivity extends AppCompatActivity {
         // Save a xml: path for use with ACTION_VIEW intents
         friend.setThumbnailFilePath(mediaFile.getPath());
         return mediaFile;
+    }
+    private void showYesNoDialog()
+    {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        alertDialogBuilder.setTitle("CONFIRMATION")
+                .setMessage("Are you sure you want to delete your friend?")
+                .setCancelable(true)
+                .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        DetailActivity.this.deleteFriend();
+                    }
+                })
+                .setNegativeButton("Cancel", null);
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }
