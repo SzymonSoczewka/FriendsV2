@@ -1,14 +1,14 @@
 package dk.easv.friendsv2;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import java.util.ArrayList;
-
 import dk.easv.friendsv2.Model.BEFriend;
 import dk.easv.friendsv2.Model.Friends;
 
@@ -18,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
     static final int RESULT_CREATED = 1234;
     public static String TAG = "Friend2";
     private FriendsAdapter arrayAdapter;
-    private ImageView create_Icon;
     private ListView listView;
     ArrayList<BEFriend> m_friends;
     int entryPosition;
@@ -29,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         this.setTitle("MyFriends");
         m_friends = new Friends().getAll();
         listView = findViewById(R.id.listView);
-        create_Icon = findViewById(R.id.create_Icon);
         setFriendsAdapter(m_friends);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -39,16 +37,6 @@ public class MainActivity extends AppCompatActivity {
                 entryPosition = position;
                 x.putExtra("friend",friend);
                 x.putExtra("modeUpdate",true);
-                startActivityForResult(x,REQUEST_SHOW_DETAILS);
-            }
-        });
-        create_Icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent x = new Intent(getWindow().getContext(), DetailActivity.class);
-                BEFriend friend = new BEFriend("Name","+45 12 34 56 78",null,null,null);
-                x.putExtra("modeUpdate",false);
-                x.putExtra("friend",friend);
                 startActivityForResult(x,REQUEST_SHOW_DETAILS);
             }
         });
@@ -90,4 +78,24 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter.notifyDataSetChanged();
         listView.setAdapter(arrayAdapter);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addButt:
+                Intent x = new Intent(getWindow().getContext(), DetailActivity.class);
+                BEFriend friend = new BEFriend("Name","+45 12 34 56 78",null,null,null);
+                x.putExtra("modeUpdate",false);
+                x.putExtra("friend",friend);
+                startActivityForResult(x,REQUEST_SHOW_DETAILS);
+                break;
+        }
+        return true;
+    }
+
 }

@@ -8,31 +8,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#00D37878"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="255dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#6BC0B1"
             android:gravity="center"
             android:text="Contacts"
-            android:textSize="24sp" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/create_Icon"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#00FFFFFF"
-            app:srcCompat="@drawable/add_64px" />
-
-        <ImageButton
-            android:id="@+id/menu_Icon"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#00FFFFFF"
-            app:srcCompat="@drawable/menu_64px" />
     </LinearLayout>
 
     <ListView

@@ -40,7 +40,8 @@
     <ImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
-        android:layout_height="143dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dip"
         android:contentDescription="@string/friend_pitcure"
         app:srcCompat="@mipmap/matesome" />
 
@@ -217,13 +218,13 @@
 
         <Button
             android:id="@+id/smsButt"
-            android:layout_width="214dp"
+            android:layout_width="195dp"
             android:layout_height="wrap_content"
             android:text="SMS" />
 
         <Button
             android:id="@+id/callButt"
-            android:layout_width="wrap_content"
+            android:layout_width="225dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Call" />
@@ -231,31 +232,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="63dp"
-        android:orientation="horizontal"></LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/removeIcon"
-            android:layout_width="84dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:contentDescription="@string/icon"
-            app:srcCompat="@drawable/trash_can_64px" />
-
-        <ImageView
-            android:id="@+id/saveIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="@string/icon"
-            app:srcCompat="@drawable/save_64px" />
-
-    </LinearLayout>
+        android:orientation="horizontal"/>
 
 
 </LinearLayout>

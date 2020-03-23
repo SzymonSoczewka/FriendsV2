@@ -15,6 +15,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,30 +31,30 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import dk.easv.friendsv2.Model.BEFriend;
 
 
 public class DetailActivity extends AppCompatActivity {
-
-    static final int REQUEST_TAKE_PHOTO = 1;
-    static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int PERMISSION_TO_SMS_CODE = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int REQUEST_TAKE_PHOTO = 1;
     static final int RESULT_DELETED = 2137;
     static final int RESULT_CREATED = 1234;
-    DatePickerDialog picker;
-    String TAG = MainActivity.TAG;
     EditText etName,etPhone,etEmail,etURL,etBirthday,etAddress;
+    ImageView picture,mail_Icon,www_Icon,calendar_Icon;
+    String TAG = MainActivity.TAG;
+    DatePickerDialog picker;
     Button smsButt,callButt;
-    BEFriend friend;
     boolean modeUpdate;
-    ImageView picture,mail_Icon,www_Icon,save_Icon,remove_Icon,calendar_Icon;
+    BEFriend friend;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_details);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         friend = (BEFriend) getIntent().getSerializableExtra("friend");
         modeUpdate = (Boolean) getIntent().getSerializableExtra("modeUpdate");
@@ -63,12 +65,25 @@ public class DetailActivity extends AppCompatActivity {
         hasBirthday();
     }
 
-    // When back arrow is clicked, activity is finished and user redirected to the main activity
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_details, menu);
+        return true;
+    }
+
+    // This method is handling back arrow and menu bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.saveButt:
+                save();
+                break;
+            case R.id.deleteButt:
+                deleteFriend();
                 break;
         }
         return true;
@@ -108,25 +123,12 @@ public class DetailActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
-        save_Icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                save();
-            }
-        });
-        remove_Icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-        removeFriend();
-            }
-        });
         calendar_Icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectDate();
             }
         });
-
     }
     private void selectDate(){
         final Calendar cldr = Calendar.getInstance();
@@ -137,12 +139,10 @@ public class DetailActivity extends AppCompatActivity {
         picker = new DatePickerDialog(DetailActivity.this,
                 android.R.style.Theme_Holo_Dialog,
                 new DatePickerDialog.OnDateSetListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         String dateAsString = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
                         etBirthday.setText(dateAsString);
-                        hasBirthday();
                     }
                 }, year, month, day);
 
@@ -188,7 +188,7 @@ public class DetailActivity extends AppCompatActivity {
 
         finish();
     }
-    private void removeFriend(){
+    private void deleteFriend(){
         if(modeUpdate) {
             setResult(RESULT_DELETED, new Intent());
             finish();
@@ -258,8 +258,6 @@ public class DetailActivity extends AppCompatActivity {
         callButt = findViewById(R.id.callButt);
         mail_Icon = findViewById(R.id.mailIcon);
         www_Icon = findViewById(R.id.wwwIcon);
-        save_Icon = findViewById(R.id.saveIcon);
-        remove_Icon = findViewById(R.id.removeIcon);
         calendar_Icon = findViewById(R.id.calendar_Icon);
     }
 
