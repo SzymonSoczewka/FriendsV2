@@ -9,7 +9,7 @@ public class Friends {
 	public Friends()
 	{
 		m_friends = new ArrayList<BEFriend>();
-		m_friends.add(new BEFriend("Alex", "123456", "alex@gmail.com","alex.com","Spansbjerg Kirkevej 103, Esbjerg"));
+		m_friends.add(new BEFriend("Zlex", "123456", "alex@gmail.com","alex.com","Spansbjerg Kirkevej 103, Esbjerg"));
 		m_friends.add(new BEFriend("Anders", "234567","Anders@gmail.com","Anders.com","Spansbjerg Kirkevej 103, Esbjerg"));
 		m_friends.add(new BEFriend("Andreas", "126256","Andreas@gmail.com","Andreas.com","Spansbjerg Kirkevej 103, Esbjerg"));
 		m_friends.add(new BEFriend("Asvør", "234567","Asvør@gmail.com","Asvør.com","Spansbjerg Kirkevej 103, Esbjerg"));

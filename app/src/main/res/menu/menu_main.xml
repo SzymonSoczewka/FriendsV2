@@ -4,4 +4,17 @@
     <item
         android:id="@+id/addButt"
         android:title="Add friend" />
+    <item android:title="Sort by:">
+        <menu>
+            <item
+                android:id="@+id/sortByNameAsc"
+                android:title="Name ascending" />
+            <item
+                android:id="@+id/sortByNameDesc"
+                android:title="Name descending" />
+            <item
+                android:id="@+id/sortByDistance"
+                android:title="Distance" />
+        </menu>
+    </item>
 </menu>

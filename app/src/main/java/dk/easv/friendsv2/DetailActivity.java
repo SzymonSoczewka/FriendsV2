@@ -89,9 +89,6 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
-
-
-
     private void setButtonsFunctionality() {
         smsButt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,10 +149,10 @@ public class DetailActivity extends AppCompatActivity {
     private void hasBirthday(){
         String fBirthday = friend.getBirthday(); // Getting friend birthday - dd/MM/yyyy
         if(fBirthday != null) {
-            LocalDate currentdate = LocalDate.now(); //Getting the current date value
-            int currentDay = currentdate.getDayOfMonth(); //Getting the current day
-            int currentMonth = currentdate.getMonthValue(); //Getting the current month
-            int currentYear = currentdate.getYear(); //getting the current year
+            LocalDate currentDate = LocalDate.now(); //Getting the current date value
+            int currentDay = currentDate.getDayOfMonth(); //Getting the current day
+            int currentMonth = currentDate.getMonthValue(); //Getting the current month
+            int currentYear = currentDate.getYear(); //getting the current year
 
             int firstSlashIndex = fBirthday.indexOf('/');
             int lastSlashIndex = fBirthday.lastIndexOf('/');
@@ -173,12 +170,12 @@ public class DetailActivity extends AppCompatActivity {
     }
     private void save() {
         Intent i = new Intent();
-        friend.setName(etName.getText().toString());
-        friend.setURL(etURL.getText().toString());
-        friend.setEmail(etEmail.getText().toString());
-        friend.setPhone(etPhone.getText().toString());
         friend.setBirthday(etBirthday.getText().toString());
         friend.setAddress(etAddress.getText().toString());
+        friend.setEmail(etEmail.getText().toString());
+        friend.setPhone(etPhone.getText().toString());
+        friend.setName(etName.getText().toString());
+        friend.setURL(etURL.getText().toString());
         i.putExtra("friend", friend);
 
         if(modeUpdate)

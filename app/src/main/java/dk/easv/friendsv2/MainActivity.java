@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import dk.easv.friendsv2.Model.BEFriend;
 import dk.easv.friendsv2.Model.Friends;
 
@@ -20,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private FriendsAdapter arrayAdapter;
     private ListView listView;
     ArrayList<BEFriend> m_friends;
-    int entryPosition;
+    int entryPosition, sortOrder=0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,23 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter.notifyDataSetChanged();
         listView.setAdapter(arrayAdapter);
     }
+
+    public static Comparator<BEFriend> friendNameComparatorAsc = new Comparator<BEFriend>() {
+        @Override
+        public int compare(BEFriend friend, BEFriend friend2) {
+            //ascending order
+            return friend.getName().compareTo(friend2.getName());
+        }
+    };
+    public static Comparator<BEFriend> friendNameComparatorDesc = new Comparator<BEFriend>() {
+        @Override
+        public int compare(BEFriend friend, BEFriend friend2) {
+            //descending order
+            return friend2.getName().compareTo(friend.getName());
+        }
+    };
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -94,7 +114,14 @@ public class MainActivity extends AppCompatActivity {
                 x.putExtra("friend",friend);
                 startActivityForResult(x,REQUEST_SHOW_DETAILS);
                 break;
+            case R.id.sortByNameAsc:
+                Collections.sort(m_friends,friendNameComparatorAsc);
+                break;
+            case R.id.sortByNameDesc:
+                Collections.sort(m_friends,friendNameComparatorDesc);
+                break;
         }
+        arrayAdapter.notifyDataSetChanged();
         return true;
     }
 
