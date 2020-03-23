@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/birthdayCake"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:visibility="invisible"
@@ -23,14 +23,15 @@
         <TextView
             android:id="@+id/tvHeader"
             style="@style/Base.TextAppearance.AppCompat.Large"
-            android:layout_width="137dp"
-            android:layout_height="wrap_content"
+            android:layout_width="205dp"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/details" />
+            android:text="@string/details"
+            android:textSize="30sp" />
 
         <ImageView
             android:id="@+id/confetti"
-            android:layout_width="120dp"
+            android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:visibility="invisible"
@@ -40,7 +41,7 @@
     <ImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="207dp"
         android:layout_marginBottom="10dip"
         android:contentDescription="@string/friend_pitcure"
         app:srcCompat="@mipmap/matesome" />

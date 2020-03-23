@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private FriendsAdapter arrayAdapter;
     private ListView listView;
     ArrayList<BEFriend> m_friends;
-    int entryPosition, sortOrder=0;
+    int entryPosition;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

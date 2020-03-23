@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/thumbnail"
-        android:layout_width="18dp"
+        android:layout_width="93dp"
         android:layout_height="69dp"
         android:layout_weight="1"
         app:srcCompat="@mipmap/matesome" />
@@ -19,4 +19,12 @@
         android:gravity="center"
         android:text="TextView"
         android:textSize="30sp" />
+
+    <ImageView
+        android:id="@+id/birthdayCake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/birthday_64px" />
 </LinearLayout>
