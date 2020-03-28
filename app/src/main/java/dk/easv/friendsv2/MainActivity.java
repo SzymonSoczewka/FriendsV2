@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import dk.easv.friendsv2.DB.ControllerDB;
+import dk.easv.friendsv2.DB.IFriendsDB;
 import dk.easv.friendsv2.Model.BEFriend;
 import dk.easv.friendsv2.Model.Friends;
 
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_SHOW_DETAILS = 1;
     static final int RESULT_DELETED = 2137;
     static final int RESULT_CREATED = 1234;
+    private IFriendsDB db;
     public static String TAG = "Friend2";
     private FriendsAdapter arrayAdapter;
     private ListView listView;
@@ -29,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.setTitle("MyFriends");
-        m_friends = new Friends().getAll();
+        //m_friends = new Friends().getAll();
+        db =  ControllerDB.getInstance(this);
+        m_friends = db.selectAll();
         listView = findViewById(R.id.listView);
         setFriendsAdapter(m_friends);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
     }
     private void createFriend(Intent data){
         BEFriend newFriend = (BEFriend) data.getSerializableExtra("friend");
-        m_friends.add(newFriend);
+        db.insert(newFriend);
+        m_friends = db.selectAll();
+        setFriendsAdapter(m_friends);
+        //m_friends.add(newFriend);
     }
     private void removeFriend(){
         m_friends.remove(entryPosition);
@@ -109,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.addButt:
                 Intent x = new Intent(getWindow().getContext(), DetailActivity.class);
-                BEFriend friend = new BEFriend("Name","+45 12 34 56 78",null,null,null);
+                BEFriend friend = new BEFriend("Name","+45 12 34 56 78",null,null,null,null,null);
                 x.putExtra("modeUpdate",false);
                 x.putExtra("friend",friend);
                 startActivityForResult(x,REQUEST_SHOW_DETAILS);

@@ -8,21 +8,29 @@ import android.support.annotation.Nullable;
 import java.io.Serializable;
 
 public class BEFriend implements Serializable {
-
+    private final String DEFAULT_THUMBNAIL_FILE_PATH = "FriendsV2/app/src/main/res/mipmap-xxxhdpi/matesome.jpg";
     private String name;
     private String address;
     private String phone;
     private String email;
-    private String birthday;
     private String url;
     private String thumbnailFilePath;
+    private String birthday;
 
-    public BEFriend(String name, String phone ,@Nullable String email,@Nullable String url,@Nullable String address) {
+    public BEFriend(String name,
+                    @Nullable String address,
+                    @Nullable String email,
+                    String phone ,
+                    @Nullable String url,
+                    @Nullable String thumbnailFilePath,
+                    @Nullable String birthday) {
         this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.url = url;
         this.address = address;
+        this.email = email;
+        this.phone = phone;
+        this.url = url;
+        this.thumbnailFilePath = thumbnailFilePath;
+        this.birthday = birthday;
     }
 
     public String getPhone() {
@@ -43,6 +51,9 @@ public class BEFriend implements Serializable {
 
 
     public String getThumbnailFilePath() {
+        if(isNullOrEmpty(thumbnailFilePath))
+            return DEFAULT_THUMBNAIL_FILE_PATH;
+        else
         return thumbnailFilePath;
     }
 

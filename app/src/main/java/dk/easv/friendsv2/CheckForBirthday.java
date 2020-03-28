@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import dk.easv.friendsv2.Model.BEFriend;
 
 class CheckForBirthday {
-    //private static final CheckForBirthday ourInstance = new CheckForBirthday();
 
     private CheckForBirthday() {
 

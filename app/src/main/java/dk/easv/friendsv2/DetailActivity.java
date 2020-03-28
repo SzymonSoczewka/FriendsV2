@@ -45,7 +45,7 @@ public class DetailActivity extends AppCompatActivity {
     static final int RESULT_DELETED = 2137;
     static final int RESULT_CREATED = 1234;
     EditText etName,etPhone,etEmail,etURL,etBirthday,etAddress;
-    ImageView picture,mail_Icon,www_Icon,calendar_Icon;
+    ImageView picture,mail_Icon,www_Icon,calendar_Icon,location_Icon;
     String TAG = MainActivity.TAG;
     DatePickerDialog picker;
     Button smsButt,callButt;
@@ -126,6 +126,11 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 selectDate();
+            }
+        });
+        location_Icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
             }
         });
     }
@@ -244,6 +249,7 @@ public class DetailActivity extends AppCompatActivity {
         mail_Icon = findViewById(R.id.mailIcon);
         www_Icon = findViewById(R.id.wwwIcon);
         calendar_Icon = findViewById(R.id.calendar_Icon);
+        location_Icon = findViewById(R.id.locationIcon);
     }
 
     private void loadUserInformation() {
@@ -280,7 +286,7 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
     private void setPicture(String filePath) {
-        if(filePath != null){
+        if(null!=filePath) {
             Bitmap bitmap = BitmapFactory.decodeFile(filePath);
             picture.setImageBitmap(bitmap);
         }
